@@ -22,6 +22,7 @@ RUN pip install -U pip \
 ENV PATH="${PATH}:/root/.poetry/bin"
 RUN mkdir /code
 RUN mkdir /code/staticfiles
+RUN mkdir /code/mediafiles
 
 WORKDIR /code
 COPY . /code
