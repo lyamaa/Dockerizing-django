@@ -20,6 +20,8 @@ RUN apk add --no-cache --virtual .build-deps build-base linux-headers
 RUN pip install -U pip \
     && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 ENV PATH="${PATH}:/root/.poetry/bin"
+RUN mkdir /code
+RUN mkdir /code/staticfiles
 
 WORKDIR /code
 COPY . /code
