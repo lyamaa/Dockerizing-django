@@ -27,9 +27,9 @@ RUN mkdir /code/mediafiles
 WORKDIR /code
 COPY . /code
 RUN poetry config virtualenvs.create false \
-  && poetry install --no-interaction --no-ansi
+    && poetry install --no-interaction --no-ansi
 
 
 
 # run entrypoint.sh
-# ENTRYPOINT ["/code/entrypoint.sh"]
+ENTRYPOINT ["/code/entrypoint.sh"]
