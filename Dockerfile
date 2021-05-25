@@ -32,4 +32,4 @@ RUN poetry config virtualenvs.create false \
 
 
 # run entrypoint.sh
-ENTRYPOINT ["/code/entrypoint.sh"]
+# ENTRYPOINT ["/code/entrypoint.sh"]

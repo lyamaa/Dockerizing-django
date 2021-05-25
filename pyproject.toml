@@ -11,6 +11,11 @@ djangorestframework = "^3.12.4"
 Pillow = "^8.2.0"
 psycopg2-binary = "^2.8.6"
 gunicorn = "^20.1.0"
+celery = "^4.4.1"
+redis = "^3.5.3"
+isort = "^5.8.0"
+django-celery-beat = "^2.2.0"
+django-celery-results = "^2.0.1"
 
 [tool.poetry.dev-dependencies]
 

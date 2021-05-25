@@ -1,38 +1,55 @@
-version: '3.7'
+version: "3.7"
 
 services:
-    db:
-        image: "postgres:11"
-        environment:
-          - "POSTGRES_HOST_AUTH_METHOD=trust"
-        volumes:
-          - postgres_data:/var/lib/postgresql/data/
-    web:
-        restart: always
-        build: .
-        command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
-        volumes:
-            - static_volume:/code/staticfiles
-            - media_volume:/code/mediafiles
-        expose:
-            - 8000
-        env_file:
-            - ./.env.dev
-        depends_on: 
-            - db
-    nginx:
-        build: ./nginx
-        restart: always
-        volumes: 
-            - static_volume:/code/staticfiles
-            - media_volume:/code/mediafiles
-        ports: 
-            - 1337:80
-        depends_on: 
-            - web
-
+  db:
+    image: "postgres:11"
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  web:
+    restart: always
+    build: .
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/code/staticfiles
+      - media_volume:/code/mediafiles
+    expose:
+      - 8000
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+  nginx:
+    build: ./nginx
+    restart: always
+    volumes:
+      - static_volume:/code/staticfiles
+      - media_volume:/code/mediafiles
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+  redis:
+    image: redis:alpine
+  celery:
+    build:
+      context: .
+    command: celery -A core worker -l info
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - redis
+  celery-beat:
+    build:
+      context: .
+    command: celery -A core beat -l info
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - redis
 
 volumes:
-    postgres_data:
-    static_volume:
-    media_volume:
+  postgres_data:
+  static_volume:
+  media_volume:
