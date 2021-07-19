@@ -2,6 +2,8 @@
 
 Dockerizing Django
 
+[![Docker Image CI](https://github.com/lyamaa/Dockerizing-django/actions/workflows/docker-image.yml/badge.svg)](https://github.com/lyamaa/Dockerizing-django/actions/workflows/docker-image.yml)
+
 INCLUDED:
 
 - Docker
