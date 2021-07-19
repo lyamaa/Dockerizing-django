@@ -17,4 +17,4 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag dockerizing-django:$(date +%s)
     - name: Docker compose run
-      run: docker-compose up --build
+      run: docker-compose up -d --build 
