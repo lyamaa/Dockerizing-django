@@ -3,8 +3,6 @@ name: Docker Image CI
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
 
@@ -15,6 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag dockerizing-django:$(date +%s)
+      run: docker-compose -f docker-compose.yml build
     - name: Docker compose run
-      run: docker-compose up -d --build 
+      run: docker-compose -f docker-compose.yml up
