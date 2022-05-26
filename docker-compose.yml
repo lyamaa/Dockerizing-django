@@ -7,15 +7,16 @@ services:
       - "POSTGRES_HOST_AUTH_METHOD=trust"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-  web:
-    restart: always
-    build: .
-    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+  web: &web
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile
+    command: /code/start
+    ports:
+      - "8000:8000"
     volumes:
       - static_volume:/code/staticfiles
       - media_volume:/code/mediafiles
-    expose:
-      - 8000
     env_file:
       - ./.env.dev
     depends_on:
@@ -31,23 +32,22 @@ services:
     depends_on:
       - web
   redis:
-    image: redis:alpine
-  celery:
-    build:
-      context: .
-    command: celery -A core worker -l info
-    env_file:
-      - ./.env.dev
+    image: redis
+
+  celery: &celery
+    <<: *web
+    ports: [ ]
+    expose: [ ]
     depends_on:
+      - db
       - redis
-  celery-beat:
-    build:
-      context: .
-    command: celery -A core beat -l info
-    env_file:
-      - ./.env.dev
-    depends_on:
-      - redis
+      - web
+    entrypoint: [ ]
+    command: /code/start-celery
+
+  celery_beat:
+    <<: *celery
+    command: /code/start-celery-beat
 
 volumes:
   postgres_data:

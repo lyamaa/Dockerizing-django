@@ -16,8 +16,8 @@ INCLUDED:
 clone the repo and run:
 
 ```
-    docker-compose up -d --build
-    docker-compose up
+    docker-compose -f docker-compose.yml build
+    docker-compose -f docker-compose.yml up
 ```
 
 ![](https://res.cloudinary.com/dazyxzm1e/image/upload/v1620906626/dockerize-django-app_rhzd3i.png))
